@@ -30,6 +30,11 @@ namespace Services.InMemory
             return Task.FromResult(_entities.AsEnumerable());
         }
 
+        public Task<IEnumerable<T>> ReadAsync(Func<T, bool> action)
+        {
+            return Task.FromResult(_entities.Where(action).AsEnumerable());
+        }
+
         public Task<T?> ReadByIdAsync(int id)
         {
             var entity = _entities.SingleOrDefault(x => x.Id == id);

@@ -4,7 +4,7 @@ using Services.Interfaces;
 
 namespace WebApi.Controllers
 {
-    public class ShoppingListsController : GenericApiController<ShoppingList>
+    public class ShoppingListsController : GenericResourceApiController<ShoppingList>
     {
         public ShoppingListsController(IGenericService<ShoppingList> service) : base(service)
         {

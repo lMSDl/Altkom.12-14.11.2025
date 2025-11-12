@@ -16,7 +16,7 @@ builder.Services.AddSingleton<IList<int>>([.. Enumerable.Range(1, 100).Select(x 
 ]);*/
 builder.Services.AddSingleton<IGenericService<ShoppingList>, GenericService<ShoppingList>>();
 builder.Services.AddSingleton<IPeopleService, PeopleService>();
-
+builder.Services.AddSingleton<IGenericService<Product>, GenericService<Product>>();
 
 var app = builder.Build();
 

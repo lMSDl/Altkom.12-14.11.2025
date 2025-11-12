@@ -5,7 +5,7 @@ using Services.Interfaces;
 
 namespace WebApi.Controllers
 {
-    public class PeopleController : GenericApiController<Person>
+    public class PeopleController : GenericResourceApiController<Person>
     {
         private readonly IPeopleService _peopleService;
 
