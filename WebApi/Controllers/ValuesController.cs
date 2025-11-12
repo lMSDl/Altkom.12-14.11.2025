@@ -7,7 +7,7 @@ namespace WebApi.Controllers
     {
         private readonly IList<int> _list;
 
-        public ValuesController(IList<int> list)
+        public ValuesController(IList<int> list, ILogger<ValuesController> logger)
         {
             _list = list;
         }

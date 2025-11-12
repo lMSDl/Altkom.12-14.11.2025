@@ -14,6 +14,12 @@ namespace WebApi.Controllers
             _peopleService = service;
         }
 
+        [NonAction]
+        public override Task<ActionResult<IEnumerable<Person>>> Get()
+        {
+            return base.Get();
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Person>>> GetByName(string? name)
         {

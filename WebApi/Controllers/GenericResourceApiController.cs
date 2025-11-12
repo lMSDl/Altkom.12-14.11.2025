@@ -14,7 +14,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         //Aby móc zastosować metody pomocnicze REST używamy jako typu zwracanego IActionResult, ActionResult lub ActionResult<T>
-        public async Task<ActionResult<IEnumerable<T>>> Get()
+        public virtual async Task<ActionResult<IEnumerable<T>>> Get()
         {
             var entities = await _service.ReadAsync();
             //metoda pomocnicze Ok() - zwraca kod statusu 200 wraz z danymi

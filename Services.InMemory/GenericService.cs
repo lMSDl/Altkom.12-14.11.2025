@@ -1,4 +1,5 @@
-﻿using Services.Interfaces;
+﻿using Bogus;
+using Services.Interfaces;
 
 namespace Services.InMemory
 {
@@ -7,6 +8,11 @@ namespace Services.InMemory
         protected readonly List<T> _entities;
         public GenericService() { 
             _entities = [];
+        }
+
+        public GenericService(Faker<T> faker)
+        {
+            _entities = faker.Generate(10);
         }
 
         public Task<int> CreateAsync(T entity)

@@ -1,5 +1,6 @@
 using Models;
 using Services.InMemory;
+using Services.InMemory.Fakers;
 using Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,10 @@ builder.Services.AddSingleton<IList<int>>([.. Enumerable.Range(1, 100).Select(x 
 builder.Services.AddSingleton<IGenericService<ShoppingList>, GenericService<ShoppingList>>();
 builder.Services.AddSingleton<IPeopleService, PeopleService>();
 builder.Services.AddSingleton<IGenericService<Product>, GenericService<Product>>();
+builder.Services.AddTransient<Bogus.Faker<Person>, PersonFaker>();
+
+builder.Services.AddTransient<Bogus.Faker<Product>, ProductFaker>();
+builder.Services.AddTransient<Bogus.Faker<ShoppingList>, ShoppingListFaker>();
 
 var app = builder.Build();
 
