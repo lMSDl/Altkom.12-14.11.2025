@@ -4,3 +4,12 @@ GET {{WebApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{WebApi_HostAddress}}/api/shoppinglists
+Content-Type: application/json
+
+{
+  "name": "Weekly Groceries"
+}
+
+###

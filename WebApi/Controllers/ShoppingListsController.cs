@@ -1,29 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
+using Services.Interfaces;
 
 namespace WebApi.Controllers
 {
     public class ShoppingListsController : ApiController
     {
-        private readonly IList<Models.ShoppingList> _shoppingLists;
+        private readonly IGenericService<ShoppingList> _service;
 
-        public ShoppingListsController(IList<Models.ShoppingList> shoppingLists)
+        public ShoppingListsController(IGenericService<ShoppingList> service)
         {
-            _shoppingLists = shoppingLists;
+            _service = service;
         }
 
 
         //Aby móc zastosować metody pomocnicze REST używamy jako typu zwracanego IActionResult, ActionResult lub ActionResult<T>
-        public ActionResult<IEnumerable<ShoppingList>> Get()
+        public async Task<ActionResult<IEnumerable<ShoppingList>>> Get()
         {
+            var entities = await _service.ReadAsync();
             //metoda pomocnicze Ok() - zwraca kod statusu 200 wraz z danymi
-            return Ok(_shoppingLists);
+            return Ok(entities);
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<ShoppingList> GetById(int id)
+        public async Task<ActionResult<ShoppingList>> GetById(int id)
         {
-            var entity= _shoppingLists.FirstOrDefault(x => x.Id == id);
+            var entity= await _service.ReadByIdAsync(id);
 
             if (entity is null)
                 //metoda pomocnicza NotFound() - zwraca kod statusu 404
@@ -33,49 +35,47 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<int> Post(Models.ShoppingList shoppingList)
+        public async Task<ActionResult<int>> Post(Models.ShoppingList shoppingList)
         {
-            shoppingList.Id = _shoppingLists.Select(x => x.Id).DefaultIfEmpty().Max() + 1;
-            _shoppingLists.Add(shoppingList);
+            var id = await _service.CreateAsync(shoppingList);
 
             //zamiast ręcznie konfigurować odpowiedź HTTP, używamy metody pomocniczej CreatedAtAction()
             //HttpContext.Response.StatusCode = 201; //Created
 
             /*return CreatedAtAction(
                 nameof(GetById),
-                new { id = shoppingList.Id },
+                new { id = id },
                 shoppingList);*/ //tutaj zwracamy cały obiekt
 
             //metoda CreatedAtAction pozwala na wskazanie funkcji, która może zostać użyta do pobrania nowo utworzonego zasobu
             return CreatedAtAction(
                 nameof(GetById),
-                new { id = shoppingList.Id }, //obiekt anonimowy z parametrami trasy - nazwa "id" to nazwa parametru z metody GetById
-                shoppingList.Id); //tutaj zwracamy tylko Id nowo utworzonego zasobu
+                new { id = id }, //obiekt anonimowy z parametrami trasy - nazwa "id" to nazwa parametru z metody GetById
+                id); //tutaj zwracamy tylko Id nowo utworzonego zasobu
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Put(int id, Models.ShoppingList shoppingList)
+        public async Task<ActionResult> Put(int id, Models.ShoppingList shoppingList)
         {
-            var index = _shoppingLists.ToList().FindIndex(x => x.Id == id);
-            if (index == -1)
+            var entity = await _service.ReadByIdAsync(id);
+            if (entity is null)
             {
                 return NotFound();
             }
-
-            _shoppingLists[index] = shoppingList;
+            
+            await _service.UpdateAsync(id, shoppingList);
 
             return NoContent(); //204 No Content
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var entity = _shoppingLists.FirstOrDefault(x => x.Id == id);
+            var entity = await _service.ReadByIdAsync(id);
             if (entity is null)
                 return NotFound();
 
-
-            _shoppingLists.Remove(entity);
+            await _service.DeleteAsync(id);
 
             return NoContent(); //204 No Content
         }
