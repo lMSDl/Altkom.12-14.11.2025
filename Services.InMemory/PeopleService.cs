@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.Extensions.Options;
+using Models;
 using Services.Interfaces;
 
 namespace Services.InMemory
@@ -6,7 +7,7 @@ namespace Services.InMemory
     public class PeopleService : GenericService<Person>, IPeopleService
     {
 
-        public PeopleService(Bogus.Faker<Person> faker) : base(faker)
+        public PeopleService(Bogus.Faker<Person> faker, IOptions<Models.Settings.Bogus> options) : base(faker, options)
         {
         }
 

@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Microsoft.Extensions.Options;
 using Services.Interfaces;
 
 namespace Services.InMemory
@@ -10,9 +11,14 @@ namespace Services.InMemory
             _entities = [];
         }
 
-        public GenericService(Faker<T> faker)
+        public GenericService(Faker<T> faker, int numberOfItems)
         {
-            _entities = faker.Generate(10);
+            _entities = faker.Generate(numberOfItems);
+        }
+
+        public GenericService(Faker<T> faker, IOptions<Models.Settings.Bogus> options)
+        {
+            _entities = faker.Generate(options.Value.NumberOfResources);
         }
 
         public Task<int> CreateAsync(T entity)

@@ -17,11 +17,25 @@ builder.Services.AddSingleton<IList<int>>([.. Enumerable.Range(1, 100).Select(x 
 ]);*/
 builder.Services.AddSingleton<IGenericService<ShoppingList>, GenericService<ShoppingList>>();
 builder.Services.AddSingleton<IPeopleService, PeopleService>();
-builder.Services.AddSingleton<IGenericService<Product>, GenericService<Product>>();
+//builder.Services.AddSingleton<IGenericService<Product>, GenericService<Product>>();
+builder.Services.AddSingleton<IGenericService<Product>>(x => new GenericService<Product>(x.GetRequiredService<Bogus.Faker<Product>>(), 
+                                                                                         x.GetRequiredService<IConfiguration>().GetValue<int>("Bogus:NumberOfNestedResources")));
 builder.Services.AddTransient<Bogus.Faker<Person>, PersonFaker>();
 
-builder.Services.AddTransient<Bogus.Faker<Product>, ProductFaker>();
+//builder.Services.AddTransient<Bogus.Faker<Product>, ProductFaker>();
+builder.Services.AddTransient<Bogus.Faker<Product>>(x => new ProductFaker(x.GetRequiredService<IConfiguration>()["Bogus:Language"]!,
+                                                                          x.GetRequiredService<IConfiguration>().GetValue<int>("Bogus:NumberOfResources")));
+
 builder.Services.AddTransient<Bogus.Faker<ShoppingList>, ShoppingListFaker>();
+builder.Services.AddTransient(x => x.GetRequiredService<IConfiguration>().GetSection("Bogus").Get < Models.Settings.Bogus>()!);
+
+/*builder.Services.Configure<Models.Settings.Bogus>(builder.Configuration.GetSection("Bogus"));*/
+//walidacja ustawien
+builder.Services.AddOptions<Models.Settings.Bogus>()
+    .Bind(builder.Configuration.GetSection("Bogus"))
+    .ValidateDataAnnotations()
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Language), "No language defined")
+    .ValidateOnStart();
 
 var app = builder.Build();
 
