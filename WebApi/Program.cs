@@ -1,3 +1,5 @@
+using Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<IList<int>>([.. Enumerable.Range(1, 100).Select(x => Random.Shared.Next())]);
+builder.Services.AddSingleton<IList<ShoppingList>>([
+    new() { Id = 1, Name = "Groceries" },
+    new(){ Id = 2, Name = "Electronics" },
+    new(){ Id = 3, Name = "Clothing" }
+]);
 
 var app = builder.Build();
 

@@ -2,9 +2,8 @@
 
 namespace WebApi.Controllers
 {
-    [ApiController] // oznaczamy nasz kontroler jako API
-    [Route("api/[controller]")] //adres naszego kontrolera - w nawiasach kwadratowych nazwa klasy bez "Controller"
-    public class ValuesController : ControllerBase
+    
+    public class ValuesController : LegacyApiController
     {
         private readonly IList<int> _list;
 
