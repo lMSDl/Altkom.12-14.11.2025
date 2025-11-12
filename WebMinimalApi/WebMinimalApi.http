@@ -1,0 +1,20 @@
+﻿@WebMinimalApi_HostAddress = http://localhost:5054
+
+GET {{WebMinimalApi_HostAddress}}/values
+
+###
+
+@oldValue=1423522488
+@newValue=123
+PUT {{WebMinimalApi_HostAddress}}/values/{{oldValue}}?newValue={{newValue}}
+
+###
+
+@value=1089099810
+DELETE {{WebMinimalApi_HostAddress}}/values/{{value}}
+
+###
+
+POST {{WebMinimalApi_HostAddress}}/values/{{value}
+
+###
