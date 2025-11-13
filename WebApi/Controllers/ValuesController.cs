@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace WebApi.Controllers
 {
@@ -12,10 +13,31 @@ namespace WebApi.Controllers
             _list = list;
         }
 
+        private static int _counter = 0;
+
         [HttpGet]
-        public IEnumerable<int> Get()
+        public async Task<IEnumerable<int>> Get(CancellationToken cancellationToken)
         {
-            return _list;
+            Interlocked.Increment(ref _counter);
+            Console.WriteLine($"Counter: {_counter}");
+            try
+            {
+                /*if (cancellationToken.IsCancellationRequested)
+                    return [];*/
+
+                await Task.Delay(5000, cancellationToken); //symulacja długotrwałej operacji
+
+                return _list;
+            }
+            catch
+            {
+                Console.WriteLine("Request cancelled");
+                throw;
+            }
+            finally
+            {
+                Interlocked.Decrement(ref _counter);
+            }
         }
 
         [HttpDelete] // domyślny route to api/values - parametr w query requestu
