@@ -11,10 +11,10 @@ namespace WebApi.Controllers
         {
         }
 
-        [NonAction] //wyłącza tę metodę z routingu API
+        /*[NonAction] //wyłącza tę metodę z routingu API
         public override Task<ActionResult> Put(int id, ShoppingList entity)
         {
             return base.Put(id, entity);
-        }
+        }*/
     }
 }
