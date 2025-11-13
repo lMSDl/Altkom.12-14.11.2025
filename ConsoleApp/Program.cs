@@ -1,4 +1,5 @@
 ﻿
+using ConsoleApp;
 using Models;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
@@ -70,5 +71,23 @@ result.EnsureSuccessStatusCode();
 //możliwe jest metod "skrótowych", które zwracają od razu zdeserializowany obiekt
 //jesli odpowiedź nie jest sukcesem, to zostanie rzucony wyjątek
 shoppingList = (await httpClient.GetFromJsonAsync<ShoppingList>($"shoppingLists/{shoppingList.Id}"))!;
+
+Console.ReadLine();
+
+
+WebApiClient webApiClient = new WebApiClient("http://localhost:5017/api/");
+webApiClient.JsonSerializerSettings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+
+people = await webApiClient.GetAsync<IEnumerable<Person>>("people");
+
+var person = new Person
+{
+    FirstName = "Jan",
+    LastName = "Kowalski",
+    Age = 30,
+    Secret = "ala ma kota i 0 pomysłow w głowie!"
+};
+
+    person.Id = await webApiClient.PostAsync<Person, int>("people", person);
 
 Console.ReadLine();

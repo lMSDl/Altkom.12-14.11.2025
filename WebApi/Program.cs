@@ -60,7 +60,7 @@ builder.Services.AddOptions<Models.Settings.Bogus>()
     .ValidateOnStart();
 
 //zawieszenie automatycznej walidacji modelu
-//builder.Services.Configure<ApiBehaviorOptions>(x => x.SuppressModelStateInvalidFilter  = true);
+builder.Services.Configure<ApiBehaviorOptions>(x => x.SuppressModelStateInvalidFilter  = true);
 
 //podejscie legacy (dla wersji FluentValudation < 12)
 //builder.Services.AddFluentValidationAutoValidation();
