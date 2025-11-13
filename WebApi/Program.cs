@@ -6,6 +6,7 @@ using Services.Interfaces;
 using FluentValidation;
 using WebApi.Validators;
 using WebApi.Filters;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,9 +71,19 @@ builder.Services.AddScoped<IValidator<ShoppingList>, ShoppingListValidator>();
 builder.Services.AddSingleton<ConsoleLogFilter>();
 builder.Services.AddSingleton(new LimiterFilter(5));
 
+builder.Services.AddResponseCompression(x =>
+{
+    x.Providers.Clear();
+    x.Providers.Add<BrotliCompressionProvider>();
+    x.Providers.Add<GzipCompressionProvider>();
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseResponseCompression();
+
 
 app.UseAuthorization();
 
