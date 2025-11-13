@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.Interfaces;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
+    [ServiceFilter<LimiterFilter>]
     public class PeopleController : GenericResourceApiController<Person>
     {
         private readonly IPeopleService _peopleService;

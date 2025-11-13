@@ -5,6 +5,7 @@ using Services.InMemory.Fakers;
 using Services.Interfaces;
 using FluentValidation;
 using WebApi.Validators;
+using WebApi.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +66,9 @@ builder.Services.AddOptions<Models.Settings.Bogus>()
 //builder.Services.AddFluentValidationAutoValidation();
 
 builder.Services.AddScoped<IValidator<ShoppingList>, ShoppingListValidator>();
+
+builder.Services.AddSingleton<ConsoleLogFilter>();
+builder.Services.AddSingleton(new LimiterFilter(5));
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
+using WebApi.Filters;
 
 namespace WebApi.Controllers
 {
@@ -16,6 +17,7 @@ namespace WebApi.Controllers
         private static int _counter = 0;
 
         [HttpGet]
+        [ServiceFilter<ConsoleLogFilter>]
         public async Task<IEnumerable<int>> Get(CancellationToken cancellationToken)
         {
             Interlocked.Increment(ref _counter);
