@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(x => x.ConfigureHttpsDefaults(xx => xx.SslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls13));
+
 // Add services to the container.
 
 builder.Services.AddControllers()
@@ -76,6 +78,7 @@ builder.Services.AddResponseCompression(x =>
     x.Providers.Clear();
     x.Providers.Add<BrotliCompressionProvider>();
     x.Providers.Add<GzipCompressionProvider>();
+    x.EnableForHttps = true;
 });
 
 
