@@ -38,5 +38,21 @@ namespace WebApi.Controllers
         {
             return base.GetById(id);
         }
+
+        public override async Task<ActionResult<int>> Post(Person entity)
+        {
+            var people = await _peopleService.ReadByName(entity.FullName);
+            if(people.Any())
+            {
+                ModelState.AddModelError("FullName", $"Person with the name '{entity.FullName}' already exists.");
+                //return Conflict($"Person with the name '{entity.FullName}' already exists.");
+            }
+
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            return await base.Post(entity);
+        }
     }
 }

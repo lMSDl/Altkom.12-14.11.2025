@@ -23,7 +23,7 @@ namespace WebApi.Controllers
 
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(T entity)
+        public virtual async Task<ActionResult<int>> Post(T entity)
         {
             var id = await _service.CreateAsync(entity);
 

@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using Models.Annotations;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Models
 {
@@ -6,9 +8,19 @@ namespace Models
     {
         public Person? Parent { get; set; }
         public ICollection<Person> Children { get; set; } = [];
-
+        [Required]
         public string FirstName { get; set; }
+        [StringLength(15)]
         public string LastName { get; set; }
+
+        [Range(18, 65, ErrorMessage = "Age must me between 16-65")]
+        public int Age { get; set; }
+
+        [MyValidationAnnotation(Value = "!")]
+        [MyValidationAnnotation(Value = "g")]
+        [MyValidationAnnotation(Value = "ala")]
+        [MyValidationAnnotation(Value = "0")]
+        public string Secret { get; set; }
 
         //[JsonIgnore]
         public string FullName => $"{FirstName} {LastName}";

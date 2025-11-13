@@ -28,8 +28,7 @@ namespace Services.InMemory
 
         public Task<IEnumerable<Person>> ReadByName(string name)
         {
-            var people = _entities.Where(p => p.FirstName.Contains(name, StringComparison.OrdinalIgnoreCase) ||
-                                   p.LastName.Contains(name, StringComparison.OrdinalIgnoreCase));
+            var people = _entities.Where(p => p.FullName.Contains(name, StringComparison.OrdinalIgnoreCase));
             return Task.FromResult(people.AsEnumerable());
         }
     }

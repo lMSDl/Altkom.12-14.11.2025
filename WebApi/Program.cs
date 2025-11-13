@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.InMemory;
 using Services.InMemory.Fakers;
@@ -54,6 +55,8 @@ builder.Services.AddOptions<Models.Settings.Bogus>()
     .ValidateDataAnnotations()
     .Validate(x => !string.IsNullOrWhiteSpace(x.Language), "No language defined")
     .ValidateOnStart();
+
+builder.Services.Configure<ApiBehaviorOptions>(x => x.SuppressModelStateInvalidFilter  = true);
 
 var app = builder.Build();
 
