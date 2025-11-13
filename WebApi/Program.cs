@@ -7,7 +7,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    /*.AddJsonOptions(options =>
+    {
+        //konfigurujemy serializacje aby obslugiwala cykle referencji za pomoc¹ mechanizmu referencji ($id, $ref)
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        //ignorowanie wlasciwosci tylko do odczytu podczas serializacji
+        options.JsonSerializerOptions.IgnoreReadOnlyProperties = true;
+        //ignorowanie wartosci domyslnych podczas serializacji
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault;
+    });*/
+    .AddNewtonsoftJson(options =>
+    {
+        //konfigurujemy serializacje aby obslugiwala cykle referencji
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
+        options.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        options.SerializerSettings.DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore;
+    })
+    .AddXmlDataContractSerializerFormatters(); //ws³¹czamy wsparcie dla formatu XML
 
 builder.Services.AddSingleton<IList<int>>([.. Enumerable.Range(1, 100).Select(x => Random.Shared.Next())]);
 /*builder.Services.AddSingleton<IList<ShoppingList>>([

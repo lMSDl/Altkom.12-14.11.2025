@@ -13,7 +13,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<T>> GetById(int id)
+        public virtual async Task<ActionResult<T>> GetById(int id)
         {
             var entity = await _service.ReadByIdAsync(id);
 

@@ -31,5 +31,12 @@ namespace WebApi.Controllers
             var people = await _peopleService.ReadByName(name);
             return Ok(people);
         }
+
+        // Produces - wymusza format odpowiedzi bez względu na nagłówek Accept w żądaniu
+        //[Produces("application/xml")]
+        public override Task<ActionResult<Person>> GetById(int id)
+        {
+            return base.GetById(id);
+        }
     }
 }
