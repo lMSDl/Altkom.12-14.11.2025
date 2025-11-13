@@ -14,6 +14,7 @@ namespace WebApi.Controllers
             _service = service;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpGet]
         //Aby móc zastosować metody pomocnicze REST używamy jako typu zwracanego IActionResult, ActionResult lub ActionResult<T>
         public virtual async Task<ActionResult<IEnumerable<T>>> Get()
@@ -24,6 +25,7 @@ namespace WebApi.Controllers
         }
 
 
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [HttpPost]
         public virtual async Task<ActionResult<int>> Post(T entity)
         {

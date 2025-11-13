@@ -15,6 +15,8 @@ namespace WebApi.Controllers
             _service = service;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id:int}")]
         public virtual async Task<ActionResult<T>> GetById(int id)
         {
@@ -27,6 +29,8 @@ namespace WebApi.Controllers
             return Ok(entity);
         }
 
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id:int}")]
         public virtual async Task<ActionResult> Put(int id, T entity)
         {
@@ -40,7 +44,9 @@ namespace WebApi.Controllers
 
             return NoContent(); //204 No Content
         }
-
+        
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> Delete(int id)
         {

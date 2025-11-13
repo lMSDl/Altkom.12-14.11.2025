@@ -7,6 +7,7 @@ using FluentValidation;
 using WebApi.Validators;
 using WebApi.Filters;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,6 +82,7 @@ builder.Services.AddResponseCompression(x =>
     x.EnableForHttps = true;
 });
 
+builder.Services.AddOpenApi("contract");
 
 var app = builder.Build();
 
@@ -106,5 +108,8 @@ app.Use(async (context, next) =>
 });
 
 app.MapControllers();
+
+app.MapOpenApi();
+app.UseSwaggerUI(x => x.SwaggerEndpoint("/openapi/contract.json", "v1"));
 
 app.Run();
