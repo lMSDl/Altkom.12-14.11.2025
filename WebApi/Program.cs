@@ -3,6 +3,8 @@ using Models;
 using Services.InMemory;
 using Services.InMemory.Fakers;
 using Services.Interfaces;
+using FluentValidation;
+using WebApi.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,13 +58,34 @@ builder.Services.AddOptions<Models.Settings.Bogus>()
     .Validate(x => !string.IsNullOrWhiteSpace(x.Language), "No language defined")
     .ValidateOnStart();
 
-builder.Services.Configure<ApiBehaviorOptions>(x => x.SuppressModelStateInvalidFilter  = true);
+//zawieszenie automatycznej walidacji modelu
+//builder.Services.Configure<ApiBehaviorOptions>(x => x.SuppressModelStateInvalidFilter  = true);
+
+//podejscie legacy (dla wersji FluentValudation < 12)
+//builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddScoped<IValidator<ShoppingList>, ShoppingListValidator>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
 app.UseAuthorization();
+
+app.Use(async (context, next) =>
+{
+    if (context.Request.Headers.AcceptLanguage.Any())
+    {
+        var lang = context.Request.Headers.AcceptLanguage.ToString().Split(',').FirstOrDefault();
+        if (!string.IsNullOrWhiteSpace(lang))
+        {
+            System.Globalization.CultureInfo.CurrentCulture = new System.Globalization.CultureInfo(lang);
+            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo(lang);
+        }
+    }
+
+    await next(context);
+});
 
 app.MapControllers();
 

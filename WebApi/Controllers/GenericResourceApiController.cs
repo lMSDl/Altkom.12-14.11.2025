@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Controllers
 {
@@ -7,7 +9,7 @@ namespace WebApi.Controllers
     {
         private readonly IGenericService<T> _service;
 
-        public GenericResourceApiController(IGenericService<T> service) : base(service)
+        public GenericResourceApiController(IGenericService<T> service, IValidator<T>? validator = null) : base(service, validator)
         {
             _service = service;
         }
@@ -25,6 +27,17 @@ namespace WebApi.Controllers
         [HttpPost]
         public virtual async Task<ActionResult<int>> Post(T entity)
         {
+            if (_validator is not null)
+            {
+                var result = await _validator.ValidateAsync(entity);
+
+                if (!result.IsValid)
+                {
+                    return BadRequest(result.ToDictionary());
+                }
+            }
+
+
             var id = await _service.CreateAsync(entity);
 
             //zamiast ręcznie konfigurować odpowiedź HTTP, używamy metody pomocniczej CreatedAtAction()

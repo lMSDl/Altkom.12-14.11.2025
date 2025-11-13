@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Models;
 using Services.Interfaces;
 
@@ -6,7 +7,7 @@ namespace WebApi.Controllers
 {
     public class ShoppingListsController : GenericResourceApiController<ShoppingList>
     {
-        public ShoppingListsController(IGenericService<ShoppingList> service) : base(service)
+        public ShoppingListsController(IGenericService<ShoppingList> service, IValidator<ShoppingList> validator) : base(service, validator)
         {
         }
 

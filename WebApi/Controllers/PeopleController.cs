@@ -48,7 +48,8 @@ namespace WebApi.Controllers
                 //return Conflict($"Person with the name '{entity.FullName}' already exists.");
             }
 
-            if(!ModelState.IsValid)
+            //jeśli zawiesimy automatyczną walidację modelu, to możemy sprawdzić poprawność modelu ręcznie
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

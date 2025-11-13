@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Services.Interfaces;
 
 namespace WebApi.Controllers
@@ -6,9 +7,11 @@ namespace WebApi.Controllers
     public class GenericApiController<T> : ApiController
     {
         private readonly IGenericService<T> _service;
+        protected readonly IValidator<T>? _validator;
 
-        public GenericApiController(IGenericService<T> service)
+        public GenericApiController(IGenericService<T> service, IValidator<T>? validator = null)
         {
+            _validator = validator;
             _service = service;
         }
 
