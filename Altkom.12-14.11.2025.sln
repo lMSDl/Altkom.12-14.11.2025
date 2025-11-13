@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services.InMemory", "Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{65C53BE9-7E35-4859-901B-FD981E5CF355}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppOpenAPI", "ConsoleAppOpenAPI\ConsoleAppOpenAPI.csproj", "{A42A9AE5-A7B0-4BA9-93D7-ED430E49CC19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{65C53BE9-7E35-4859-901B-FD981E5CF355}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65C53BE9-7E35-4859-901B-FD981E5CF355}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65C53BE9-7E35-4859-901B-FD981E5CF355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A42A9AE5-A7B0-4BA9-93D7-ED430E49CC19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A42A9AE5-A7B0-4BA9-93D7-ED430E49CC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A42A9AE5-A7B0-4BA9-93D7-ED430E49CC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A42A9AE5-A7B0-4BA9-93D7-ED430E49CC19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
