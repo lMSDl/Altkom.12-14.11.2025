@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalR", "SignalR\SignalR.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRClient", "SignalRClient\SignalRClient.csproj", "{FD4B9690-AB32-4DD3-B614-897F89D3BDFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcService", "GrpcService\GrpcService.csproj", "{52C375C2-807C-4F5C-89DB-0E94F0D7ED38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcClient", "GrpcClient\GrpcClient.csproj", "{19672ADA-6341-4CCC-B11A-32C268179B0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +85,14 @@ Global
 		{FD4B9690-AB32-4DD3-B614-897F89D3BDFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD4B9690-AB32-4DD3-B614-897F89D3BDFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD4B9690-AB32-4DD3-B614-897F89D3BDFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52C375C2-807C-4F5C-89DB-0E94F0D7ED38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52C375C2-807C-4F5C-89DB-0E94F0D7ED38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52C375C2-807C-4F5C-89DB-0E94F0D7ED38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52C375C2-807C-4F5C-89DB-0E94F0D7ED38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19672ADA-6341-4CCC-B11A-32C268179B0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19672ADA-6341-4CCC-B11A-32C268179B0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19672ADA-6341-4CCC-B11A-32C268179B0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19672ADA-6341-4CCC-B11A-32C268179B0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
