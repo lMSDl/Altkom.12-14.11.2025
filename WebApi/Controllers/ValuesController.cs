@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Runtime.CompilerServices;
 using WebApi.Filters;
+using WebApi.Hubs;
 
 namespace WebApi.Controllers
 {
@@ -8,10 +10,12 @@ namespace WebApi.Controllers
     public class ValuesController : LegacyApiController
     {
         private readonly IList<int> _list;
+        private readonly IHubContext<ValuesHub> _hubContext;
 
-        public ValuesController(IList<int> list, ILogger<ValuesController> logger)
+        public ValuesController(IList<int> list, IHubContext<ValuesHub> hubContext)
         {
             _list = list;
+            _hubContext = hubContext;
         }
 
         private static int _counter = 0;
@@ -49,18 +53,22 @@ namespace WebApi.Controllers
         public void Delete(int value)
         {
             _list.Remove(value);
+            _hubContext.Clients.All.SendAsync(nameof(Delete), value);
         }
 
         [HttpPost("{value:int:max(50)}")] //metody "walidacyjne" określone w route (np. max(50)) działają jak filtry przed wykonaniem metody (jeśli coś nie przejdzie to dostajemy 404)
         public void Post(int value)
         {
             _list.Add(value);
+            _hubContext.Clients.All.SendAsync("Add", value);
         }
 
         [HttpPut("{oldValue:int}")]
         public void Put(int oldValue, [FromQuery] int newValue) // [FromQuery] - parametr z query requestu
         {
             _list[_list.IndexOf(oldValue)] = newValue;
+            _hubContext.Clients.All.SendAsync(nameof(Delete), oldValue);
+            _hubContext.Clients.All.SendAsync("Add", newValue);
         }
 
     }

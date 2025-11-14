@@ -8,6 +8,7 @@ using WebApi.Validators;
 using WebApi.Filters;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Builder;
+using WebApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +84,7 @@ builder.Services.AddResponseCompression(x =>
 });
 
 builder.Services.AddOpenApi("contract");
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -111,5 +113,6 @@ app.MapControllers();
 
 app.MapOpenApi();
 app.UseSwaggerUI(x => x.SwaggerEndpoint("/openapi/contract.json", "v1"));
+app.MapHub<ValuesHub>("signalR/values");
 
 app.Run();
