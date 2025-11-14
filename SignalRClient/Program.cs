@@ -3,7 +3,20 @@ using System.Threading.Tasks;
 
 var signalR = new HubConnectionBuilder()
     .WithUrl("https://localhost:7023/SignalR/demo")
+    .WithAutomaticReconnect()
     .Build();
+
+signalR.Reconnecting += async (exception) =>
+{
+    Console.WriteLine("Reconnecting...");
+    await Task.CompletedTask;
+};
+
+signalR.Reconnected += async (connectionId) =>
+{
+    Console.WriteLine("Reconnected to the server.");
+    await Task.CompletedTask;
+};
 
 signalR.On<string>(nameof(PrintMessage), PrintMessage);
 signalR.On<string>("alamakota", PrintMessage);
