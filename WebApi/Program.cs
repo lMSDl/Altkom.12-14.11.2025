@@ -86,6 +86,7 @@ builder.Services.AddResponseCompression(x =>
 builder.Services.AddOpenApi("contract");
 builder.Services.AddSignalR();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
