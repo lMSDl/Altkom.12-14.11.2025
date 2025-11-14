@@ -4,11 +4,14 @@ using System.Net.WebSockets;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 app.UseWebSockets();
 
-app.MapWhen(context => context.WebSockets.IsWebSocketRequest, webSocketApp =>
+/*app.MapWhen(context => context.WebSockets.IsWebSocketRequest, webSocketApp =>
 {
     webSocketApp.Run(async context =>
     {
@@ -56,6 +59,8 @@ app.MapWhen(context => context.WebSockets.IsWebSocketRequest, webSocketApp =>
 
                 var @string = Encoding.UTF8.GetString(buffer, 0, receiveResult.Count);
                 fullMessage.Append(@string);
+
+
                 Debug.WriteLine(@string);
 
                 if (receiveResult.EndOfMessage)
@@ -67,8 +72,9 @@ app.MapWhen(context => context.WebSockets.IsWebSocketRequest, webSocketApp =>
         } while (!receiveResult.CloseStatus.HasValue);
     });
 
-});
+});*/
 
+app.MapControllers();
 
 app.MapGet("/", () => "Hello World!");
 
